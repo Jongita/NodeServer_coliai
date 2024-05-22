@@ -18,11 +18,9 @@ const server = http_1.default.createServer((req, res) => {
             const reqData = Buffer.concat(reqBody).toString();
             const va = reqData.split('&');
             const x = parseFloat(va[0].split('=')[1]);
-            console.log(`Visi gauti duomenys: ${reqData}`);
-            console.log(va);
             res.setHeader("Content-Type", "text/html; charset=utf-8");
             let template = fs_1.default.readFileSync('templates/result.html').toString();
-            template = template.replace('{{ result }}', `Rezultatas: ${x / 2.54} coliai`);
+            template = template.replace('{{ result }}', `Rezultatas: ${x} cm = ${(x / 2.54).toFixed(2)} coliai`);
             res.write(template);
             res.end();
         });
