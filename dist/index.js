@@ -21,7 +21,7 @@ const server = http_1.default.createServer((req, res) => {
             res.setHeader("Content-Type", "text/html; charset=utf-8");
             let template = fs_1.default.readFileSync('templates/result.html').toString();
             if (url == '/convert-cm') {
-                template = template.replace('{{ result }}', `Rezultatas: ${cm} cm = ${(cm / 2.54).toFixed(2)} coliai`);
+                template = template.replace('{{ result }}', `Rezultatas: ${cm} centimetrų = ${(cm / 2.54).toFixed(2)} coliai`);
             }
             else {
                 template = template.replace('{{ result }}', `Rezultatas: ${inch} colių = ${(inch * 2.54).toFixed(2)} centimetrai`);
