@@ -9,18 +9,23 @@ const server = http_1.default.createServer((req, res) => {
     const method = req.method;
     const url = req.url;
     console.log(`Metodas: ${method}, URL: ${url}`);
-    if (url == '/calculate' && method == 'POST') {
+    if ((url == '/convert-cm' || url == '/convert-inch') && method == 'POST') {
         const reqBody = [];
         req.on('data', (d) => {
             reqBody.push(d);
         });
         req.on('end', () => {
             const reqData = Buffer.concat(reqBody).toString();
-            const va = reqData.split('&');
-            const x = parseFloat(va[0].split('=')[1]);
+            const cm = parseFloat(reqData.split('=')[1]);
+            const inch = parseFloat(reqData.split('=')[1]);
             res.setHeader("Content-Type", "text/html; charset=utf-8");
             let template = fs_1.default.readFileSync('templates/result.html').toString();
-            template = template.replace('{{ result }}', `Rezultatas: ${x} cm = ${(x / 2.54).toFixed(2)} coliai`);
+            if (url == '/convert-cm') {
+                template = template.replace('{{ result }}', `Rezultatas: ${cm} cm = ${(cm / 2.54).toFixed(2)} coliai`);
+            }
+            else {
+                template = template.replace('{{ result }}', `Rezultatas: ${inch} colių = ${(inch * 2.54).toFixed(2)} centimetrai`);
+            }
             res.write(template);
             res.end();
         });
